@@ -1,11 +1,11 @@
+import pathlib
 import shutil
 import logging
 from pathlib import Path
 
 # --- CONFIGURATION ---
-# MAPPING: Windows Extensions to Categories
 FILE_TYPES = {
-    "Images": [".jpg", ".jpeg", ".png", ".git", ".webp"],
+    "Images": [".jpg", ".jpeg", ".png", ".gif", ".webp"],
     "Documents": [".pdf", ".docx", ".txt", ".xlsx", ".pptx", ".csv"],
     "Archives": [".zip", ".rar", ".7z", ".tar", ".gz"],
     "Videos": [".mp4", ".mkv", ".mov", ".avi"],
@@ -13,7 +13,6 @@ FILE_TYPES = {
 }
 
 # --- LOGGING SETUP ---
-# Ensure the logs directory exists before writing
 log_dir = Path("../logs")
 log_dir.mkdir(exist_ok=True)
 
@@ -27,12 +26,7 @@ logging.basicConfig(
 )
 
 
-def get_windows_downloads_path():
-    # username = "User"
-    path = Path("/mnt/d/Downloads")
-    return path
-
-
+# --- UTILITY METHODS ---
 def organize_directory(path: Path):
     if not path.exists():
         logging.error(f"CRITICAL: Directory not found: {path}")
@@ -82,8 +76,9 @@ def organize_directory(path: Path):
     logging.info(f"Operation Complete. Total files moved {files_moved}.")
 
 
+# --- MAIN / ENTRY POINT ---
 if __name__ == "__main__":
-    target_path = get_windows_downloads_path()
+    target_path = pathlib.Path.home() / "Downloads"
 
     print(f"WARNING: About to reorganize: {target_path}")
     confirm = input("Are you sure for files organization? ( y / n ): ")
